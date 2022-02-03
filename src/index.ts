@@ -1,5 +1,5 @@
 import useBot from './create';
-import getStarted from './epic/get-started';
+import getStarted from './epic';
 
 const bot = useBot();
 

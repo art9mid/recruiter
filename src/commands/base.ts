@@ -1,5 +1,5 @@
 enum BaseCommands {
-  '/start' = '/start'
+  'start' = '/start'
 }
 
 export default BaseCommands;
