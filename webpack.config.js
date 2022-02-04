@@ -19,10 +19,6 @@ module.exports = {
         use: ['babel-loader'],
         exclude: /node_modules/,
       },
-      {
-        test: /\.json$/,
-        use: 'json-loader',
-      },
     ],
   },
   resolve: {

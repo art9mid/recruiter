@@ -1,23 +1,22 @@
-import TelegramBot, { Message } from 'node-telegram-bot-api';
-import store from '../store';
-import BaseCommands from '../commands/base';
-import { options } from './welcome';
+import { CallbackQuery, Message } from 'node-telegram-bot-api';
+import bot from '../create';
+import buy from './buy';
+import welcome from './welcome';
+import BaseCommands, { BaseFeatures } from '../commands/base';
 
-function getStarted(bot: TelegramBot) {
-  const lang = store.getState().lang;
-  bot.on('message', async (message: Message) => {
-    const text = message.text;
-    const chatId = message.chat.id;
-
-    console.log(message);
-
-    if (text === BaseCommands['start']) {
-      await bot.sendMessage(chatId, `Добро пожаловать ${lang} \nВыберите язык`, options);
-    }
-  });
-  bot.on('callback_query', (message) => {
+function getStarted() {
+  bot.onText(BaseCommands.start, welcome);
+  bot.on('callback_query', async (message: CallbackQuery) => {
     const action = message.data;
+    const chatId = message.message.chat.id;
 
+    if (action === BaseFeatures.buy) {
+      buy(message);
+    } else if (action === BaseFeatures.sell) {
+      await bot.sendMessage(chatId, 'sell');
+    } else if (action === BaseFeatures.search) {
+      await bot.sendMessage(chatId, 'search');
+    }
   });
 }
 

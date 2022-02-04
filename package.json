@@ -20,7 +20,8 @@
   },
   "homepage": "https://github.com/Artefans/recruiter#readme",
   "dependencies": {
-    "@reduxjs/toolkit": "^1.7.2",
+    "@tensorflow/tfjs": "^3.13.0",
+    "google-tts-api": "^2.0.2",
     "node-telegram-bot-api": "^0.56.0"
   },
   "devDependencies": {

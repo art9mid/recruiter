@@ -6,4 +6,6 @@ function useBot(params?: ConstructorOptions): TelegramBot {
   return new TelegramBot(token, { ...params, polling: true });
 }
 
-export default useBot;
+const bot = useBot();
+
+export default bot;
