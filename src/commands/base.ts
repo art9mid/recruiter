@@ -2,6 +2,7 @@ const BaseCommands = {
   start: /\/start/,
   voice: /\/voice/,
   exit: /\/exit/,
+  cancelSell: /❌/,
 };
 
 export enum BaseFeatures {
@@ -11,7 +12,7 @@ export enum BaseFeatures {
   startBuy = 'startBuy',
   stopBuy = 'stopBuy',
   startSell = 'startSell',
-  stopSell = 'stopSell'
+  stopSell = 'stopSell',
 }
 
 export default BaseCommands;
