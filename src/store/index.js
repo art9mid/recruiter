@@ -1,5 +1,5 @@
 const store = {
-  voiceGameIsActive: false,
+  addPostIsActive: false,
 };
 
 export default store;

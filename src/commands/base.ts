@@ -1,18 +1,19 @@
 const BaseCommands = {
   start: /\/start/,
-  voice: /\/voice/,
-  exit: /\/exit/,
   cancelSell: /❌/,
+};
+
+export const MenuCommands = {
+  buy: /1🚀/,
+  sell: /2/,
+  search: /3/,
 };
 
 export enum BaseFeatures {
   buy = 'buy',
   sell = 'sell',
-  search = ' search',
   startBuy = 'startBuy',
-  stopBuy = 'stopBuy',
   startSell = 'startSell',
-  stopSell = 'stopSell',
 }
 
 export default BaseCommands;
