@@ -1,8 +1,9 @@
-import { CallbackQuery, Message } from 'node-telegram-bot-api';
+import { CallbackQuery, Message, SendMessageOptions } from 'node-telegram-bot-api';
 import bot from '../create';
 import store from '../store';
 import { menu } from './menu';
-import { PostScheme } from '../scheme/post';
+import { resultText } from '../data/texts';
+import { PostScheme } from '../../types/post';
 import { addPostThunk } from '../store/thunks/addPost';
 import BaseCommands, { BaseFeatures } from '../commands/base';
 
@@ -10,51 +11,29 @@ async function sell(message: CallbackQuery | Message) {
   const chatId = 'chat' in message ? message?.chat?.id : message?.message?.chat?.id;
   let values: PostScheme = {};
 
-  const options = {
+  const options: SendMessageOptions = {
     parse_mode: 'HTML',
     reply_markup: {
       force_reply: true,
-      inline_keyboard: [[
-        { text: 'Начать', callback_data: BaseFeatures.startSell },
-      ]],
+      inline_keyboard: [[{ text: 'Начать', callback_data: BaseFeatures.startSell }]],
     },
   };
 
-  const text = (options: PostScheme) => {
-    return `
-🆘 <b>Для начала продажи аккаунта заполните необходимые поля ‼️</b>\n
-☝️ Уровень: ${options?.lvl || '-'}\b
-🏆 Трофеи: ${options?.trophies || '-'}\b
-❤️ Бравлесы: ${options?.brawlers || '-'}\b
-🐲 Легендарные: ${options?.legendary || '-'}\b
-💎 Гемы: ${options?.gems || '-'}\b
-⚜️ Золото: ${options?.gold || '-'}\n
-<b>Цена продажи:</b> ${options?.price || '-'}`;
+  const getText = (options: PostScheme): string => {
+    return `🆘 <b>Для начала продажи аккаунта заполните необходимые поля ‼️</b>\n${resultText(options)}`;
   };
 
-  const resultText = (options: PostScheme) => {
-    return `
-☝️ Уровень: ${options?.lvl || '-'}\b
-🏆 Трофеи: ${options?.trophies || '-'}\b
-❤️ Бравлесы: ${options?.brawlers || '-'}\b
-🐲 Легендарные: ${options?.legendary || '-'}\b
-💎 Гемы: ${options?.gems || '-'}\b
-⚜️ Золото: ${options?.gold || '-'}\n
-<b>Цена продажи:</b> ${options?.price || '-'}`;
-  };
+  const setupMessage = await bot.sendMessage(chatId, getText(values), options);
 
-  // @ts-ignore
-  const setupMessage = await bot.sendMessage(chatId, text(), options);
-
-  const editMessage = (key?: keyof PostScheme, value?: string) => {
-    bot.editMessageText(value ? text({ ...values, [value]: value }) : setupMessage.text, {
+  const editMessage = async (key?: keyof PostScheme, value?: string) => {
+    await bot.editMessageText(value ? getText({ ...values, [value]: value }) : setupMessage.text, {
       parse_mode: 'HTML',
       chat_id: chatId,
       message_id: setupMessage.message_id,
     });
   };
 
-  let replyOptions = {
+  let replyOptions: SendMessageOptions = {
     reply_markup: {
       resize_keyboard: true,
       keyboard: [['❌']],
@@ -74,7 +53,6 @@ async function sell(message: CallbackQuery | Message) {
     store.addPostIsActive = false;
     await bot.removeTextListener(BaseCommands.cancelSell);
 
-    // @ts-ignore
     await bot.sendMessage(chatId, `Действие отменино`, { reply_markup: { hide_keyboard: true } });
     await menu(chatId);
   };

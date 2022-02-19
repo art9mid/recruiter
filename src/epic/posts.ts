@@ -1,6 +1,7 @@
-import { fetchPostsThunk } from '../store/thunks/posts';
 import { CallbackQuery, Message } from 'node-telegram-bot-api';
 import bot from '../create';
+import { resultText } from '../data/texts';
+import { fetchPostsThunk } from '../store/thunks/posts';
 
 
 async function posts(message: CallbackQuery | Message) {
@@ -8,7 +9,7 @@ async function posts(message: CallbackQuery | Message) {
 
   fetchPostsThunk().then((response) => {
     if (response.success) {
-      bot.sendMessage(chatId, `${response.data}`);
+      bot.sendMessage(chatId, `${resultText(response.data.data)}`, { parse_mode: 'HTML' });
     }
   });
 }

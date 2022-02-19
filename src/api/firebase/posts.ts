@@ -6,9 +6,9 @@ export function fetchPosts() {
   const key = quotes.doc().id;
 
   return quotes.where(admin.firestore.FieldPath.documentId(), '>=', key).limit(1).get()
-    .then(snapshot => {
+    .then((snapshot) => {
       if (snapshot.size > 0) {
-        let data;
+        let data: any;
         snapshot.forEach((doc) => {
           data = doc.data();
         });
@@ -17,7 +17,7 @@ export function fetchPosts() {
         return quotes.where(admin.firestore.FieldPath.documentId(), '<', key)
           .limit(1).get()
           .then((snapshot) => {
-            let data;
+            let data: any;
             snapshot.forEach((doc) => {
               data = doc.data();
             });

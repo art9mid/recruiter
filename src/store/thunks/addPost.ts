@@ -1,7 +1,7 @@
 import { User } from 'node-telegram-bot-api';
-import { addPost } from '../../api/firebase/addPost';
-import { PostScheme } from '../../scheme/post';
 import store from '../index';
+import { PostScheme } from '../../../types/post';
+import { addPost } from '../../api/firebase/addPost';
 
 export const addPostThunk = async (user: User, values: PostScheme) => {
   try {
